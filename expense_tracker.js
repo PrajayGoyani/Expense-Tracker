@@ -1,0 +1,169 @@
+/**
+
+type Expense = {
+	amount: number;
+	notes: string;
+}
+
+type User = {
+	id: number;
+	name: string;
+	expenses: Expense[];
+	expense_total: number;
+	settlement_amt: number;
+	is_settled: boolean;
+}
+
+type Trip = {
+	name: string;
+	description: string;
+	users: User[];
+	total_users: number;
+	expense_per_user: number;
+	total_user_expense: number;
+	is_settled: boolean;
+	settlments: Settlments;
+}
+
+type Reciept = {
+	settled_to: Partial<User>;
+	payment_method: "cash" | "online"
+}
+
+type Transaction = {
+	id: string; // "MN-12345"
+	amount: number;
+	status: "paid" | "unpaid" | null;
+	reciept: Reciept;
+}
+
+type Settlments = {
+	in: Transaction[];
+	out: Transaction[];
+}
+
+*/
+const MIN_EXPENSE = 200;
+const MAX_EXPENSE = 1000;
+
+let USER_NAMES = [
+  "Arjun Mehta", "Priya Patel", "Rohan Shah", "Nisha Desai", "Kiran Joshi",
+  "Sneha Trivedi", "Vivek Pandya", "Pooja Bhatt", "Manish Parikh", "Ritu Kapoor",
+  "Dhruv Amin", "Kavya Modi", "Sanjay Thakkar", "Anjali Vora", "Harsh Solanki",
+  "Mital Raval", "Chirag Nayak", "Swati Gandhi", "Yash Contractor", "Foram Chauhan"
+];
+
+const totalUser = USER_NAMES.length;
+
+let userNameIndex = 0;
+function generateRandomUserName() {
+	userNameIndex = Math.floor(Math.random() * USER_NAMES.length);
+	const name = USER_NAMES[userNameIndex];
+	USER_NAMES.slice(userNameIndex, 1);
+  return name;
+}
+
+const EXPENSE_NOTES = [
+  "Khaman", "Lunch", "Groceries", "Auto Fare", "Coffee",
+  "Dinner", "Stationery", "Medicine", "Snacks", "Petrol",
+  "Electricity Bill", "Mobile Recharge", "Parking", "Chai", "Courier",
+  "Vegetables", "Fruit", "Books", "Laundry", "Bus Ticket"
+];
+
+function generateRandomNote() {
+  return EXPENSE_NOTES[Math.floor(Math.random() * EXPENSE_NOTES.length)];
+}
+
+function generateRandomNumber({ min, max }) {
+	return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+function generateUser(id) {
+	return {
+		id: id,
+		name: generateRandomUserName(),
+		expenses: [],
+		expense_total: 0,
+		settlement_amt: 0,
+		is_settled: false,
+	}
+}
+
+function generateExpense() {
+	return {
+		amount: generateRandomNumber({ min: MIN_EXPENSE, max: MAX_EXPENSE }),
+		notes: generateRandomNote()
+	};
+}
+
+function getAllUserTotalExpense(users) {
+	let total = 0;
+	for (const user of users) {
+		total += user.expense_total;
+	}
+	return total;
+}
+
+function generateUsersWithExpense(count) {
+	if (count > totalUser) {
+		throw new Error(`Can not generate more than available seed users, totalUser: ${totalUser}`);
+	}
+
+	const users = [];
+	for (let i = 0; i < count; i++) {
+		// Get initial user state
+		const user = generateUser(i+1);
+
+		// Generate user expenses
+		const expenseCount = generateRandomNumber({ min: 2, max: 8 });
+  	for (let i = 0; i < expenseCount; i++) {
+  		const expense = generateExpense();
+  		user.expense_total += expense.amount;
+  		user.expenses.push(expense);
+  	}
+  	
+  	users.push(user);
+	}
+
+	return users;
+}
+
+function calculateSettlementAmt({ user, expensePerUser }) {
+	return user.expense_total - expensePerUser;
+}
+
+function calculateSettlements(trip) {
+	const settlments = [];
+
+	const users = trip.users;
+	const expensePerUser = trip.expense_per_user;
+	for (const user of users) {
+    user.settlement_amt = calculateSettlementAmt({ user, expensePerUser });
+	}
+
+}
+
+try {
+	// Generate user with expense
+	const users = generateUsersWithExpense(5);
+	const totalExpense = getAllUserTotalExpense(users);
+	const expensePerUser = totalExpense / users.length;
+
+	const trip = {
+		name: "Manali",
+		description: "Solang Valley, Beas River, Hidimba Devi Temple",
+		users: users,
+		total_users: users.length,
+		expense_per_user: expensePerUser,
+		total_user_expense: totalExpense,
+		settlments: { in: [], out: [] },
+		is_settled: false,
+	};
+
+	// TODO: settle expense
+	trip.settlments = calculateSettlements(trip);
+
+	console.log(JSON.stringify(trip, null, 2));
+} catch (e) {
+	console.error(`Generate Expense error: ${e.message}`, e.stack);
+}
