@@ -1,45 +1,45 @@
 /**
 
 type Expense = {
-	amount: number;
-	notes: string;
+  amount: number;
+  notes: string;
 }
 
 type User = {
-	id: number;
-	name: string;
-	expenses: Expense[];
-	expense_total: number;
-	settlement_amt: number;
-	is_settled: boolean;
+  id: number;
+  name: string;
+  expenses: Expense[];
+  expense_total: number;
+  settlement_amt: number;
+  is_settled: boolean;
 }
 
 type Trip = {
-	name: string;
-	description: string;
-	users: User[];
-	total_users: number;
-	expense_per_user: number;
-	total_user_expense: number;
-	is_settled: boolean;
-	settlments: Settlments;
+  name: string;
+  description: string;
+  users: User[];
+  total_users: number;
+  expense_per_user: number;
+  total_user_expense: number;
+  is_settled: boolean;
+  settlments: Settlments;
 }
 
 type Reciept = {
-	settled_to: Partial<User>;
-	payment_method: "cash" | "online"
+  settled_to: Partial<User>;
+  payment_method: "cash" | "online"
 }
 
 type Transaction = {
-	id: string; // "MN-12345"
-	amount: number;
-	status: "paid" | "unpaid" | null;
-	reciept: Reciept;
+  id: string; // "MN-12345"
+  amount: number;
+  status: "paid" | "unpaid" | null;
+  reciept: Reciept;
 }
 
 type Settlments = {
-	in: Transaction[];
-	out: Transaction[];
+  in: Transaction[];
+  out: Transaction[];
 }
 
 */
@@ -57,9 +57,9 @@ const totalUser = USER_NAMES.length;
 
 let userNameIndex = 0;
 function generateRandomUserName() {
-	userNameIndex = Math.floor(Math.random() * USER_NAMES.length);
-	const name = USER_NAMES[userNameIndex];
-	USER_NAMES.slice(userNameIndex, 1);
+  userNameIndex = Math.floor(Math.random() * USER_NAMES.length);
+  const name = USER_NAMES[userNameIndex];
+  USER_NAMES.splice(userNameIndex, 1);
   return name;
 }
 
@@ -75,95 +75,154 @@ function generateRandomNote() {
 }
 
 function generateRandomNumber({ min, max }) {
-	return Math.floor(Math.random() * (max - min + 1)) + min
+  return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
 function generateUser(id) {
-	return {
-		id: id,
-		name: generateRandomUserName(),
-		expenses: [],
-		expense_total: 0,
-		settlement_amt: 0,
-		is_settled: false,
-	}
+  return {
+    id: id,
+    name: generateRandomUserName(),
+    expenses: [],
+    expense_total: 0,
+    settlement_amt: 0,
+    is_settled: false,
+  }
 }
 
 function generateExpense() {
-	return {
-		amount: generateRandomNumber({ min: MIN_EXPENSE, max: MAX_EXPENSE }),
-		notes: generateRandomNote()
-	};
+  return {
+    amount: generateRandomNumber({ min: MIN_EXPENSE, max: MAX_EXPENSE }),
+    notes: generateRandomNote()
+  };
 }
 
 function getAllUserTotalExpense(users) {
-	let total = 0;
-	for (const user of users) {
-		total += user.expense_total;
-	}
-	return total;
+  let total = 0;
+  for (const user of users) {
+    total += user.expense_total;
+  }
+  return total;
 }
 
 function generateUsersWithExpense(count) {
-	if (count > totalUser) {
-		throw new Error(`Can not generate more than available seed users, totalUser: ${totalUser}`);
-	}
+  if (count > totalUser) {
+    throw new Error(`Can not generate more than available seed users, totalUser: ${totalUser}`);
+  }
 
-	const users = [];
-	for (let i = 0; i < count; i++) {
-		// Get initial user state
-		const user = generateUser(i+1);
+  const users = [];
+  for (let i = 0; i < count; i++) {
+    // Get initial user state
+    const user = generateUser(i + 1);
 
-		// Generate user expenses
-		const expenseCount = generateRandomNumber({ min: 2, max: 8 });
-  	for (let i = 0; i < expenseCount; i++) {
-  		const expense = generateExpense();
-  		user.expense_total += expense.amount;
-  		user.expenses.push(expense);
-  	}
-  	
-  	users.push(user);
-	}
+    // Generate user expenses
+    const expenseCount = generateRandomNumber({ min: 2, max: 8 });
+    for (let i = 0; i < expenseCount; i++) {
+      const expense = generateExpense();
+      user.expense_total += expense.amount;
+      user.expenses.push(expense);
+    }
 
-	return users;
+    users.push(user);
+  }
+
+  return users;
 }
 
 function calculateSettlementAmt({ user, expensePerUser }) {
-	return user.expense_total - expensePerUser;
+  return user.expense_total - expensePerUser;
+}
+
+function generateTransactionId() {
+  return "MN-" + Math.floor(10000 + Math.random() * 90000);
 }
 
 function calculateSettlements(trip) {
-	const settlments = [];
+  const users = trip.users;
+  const expensePerUser = trip.expense_per_user;
 
-	const users = trip.users;
-	const expensePerUser = trip.expense_per_user;
-	for (const user of users) {
+  for (const user of users) {
     user.settlement_amt = calculateSettlementAmt({ user, expensePerUser });
-	}
+  }
 
+  const creditors = users.filter(u => u.settlement_amt > 0).map(u => ({ user: u, remaining: u.settlement_amt }));
+  const debtors = users.filter(u => u.settlement_amt < 0).map(u => ({ user: u, remaining: Math.abs(u.settlement_amt) }));
+
+  const settlements = { in: [], out: [] };
+
+  let ci = 0; // creditor index
+  let di = 0; // debtor index
+
+  while (ci < creditors.length && di < debtors.length) {
+    const creditor = creditors[ci];
+    const debtor = debtors[di];
+
+    const settleAmount = Math.min(creditor.remaining, debtor.remaining);
+    const transactionId = generateTransactionId();
+
+    // Creditor receives money (IN)
+    settlements.in.push({
+      id: transactionId,
+      amount: settleAmount,
+      status: "unpaid",
+      receipt: {
+        settled_to: { id: creditor.user.id, name: creditor.user.name },
+        payment_method: "online",
+      },
+      from: { id: debtor.user.id, name: debtor.user.name },
+    });
+
+    // Debtor sends money (OUT)
+    settlements.out.push({
+      id: transactionId,
+      amount: settleAmount,
+      status: "unpaid",
+      receipt: {
+        settled_to: { id: creditor.user.id, name: creditor.user.name },
+        payment_method: "online",
+      },
+      from: { id: debtor.user.id, name: debtor.user.name },
+    });
+
+    creditor.remaining -= settleAmount;
+    debtor.remaining -= settleAmount;
+
+    if (creditor.remaining === 0) ci++;
+    if (debtor.remaining === 0) di++;
+  }
+
+  // mark fully settled users
+  for (const user of users) {
+    if (Math.abs(user.settlement_amt) < 1) {
+      user.is_settled = true;
+    }
+  }
+
+  trip.is_settled = users.every(u => u.is_settled);
+
+  return settlements;
 }
 
 try {
-	// Generate user with expense
-	const users = generateUsersWithExpense(5);
-	const totalExpense = getAllUserTotalExpense(users);
-	const expensePerUser = totalExpense / users.length;
+  // Generate user with expense
+  const users = generateUsersWithExpense(5);
+  const totalExpense = getAllUserTotalExpense(users);
+  const expensePerUser = totalExpense / users.length;
 
-	const trip = {
-		name: "Manali",
-		description: "Solang Valley, Beas River, Hidimba Devi Temple",
-		users: users,
-		total_users: users.length,
-		expense_per_user: expensePerUser,
-		total_user_expense: totalExpense,
-		settlments: { in: [], out: [] },
-		is_settled: false,
-	};
+  const trip = {
+    name: "Manali",
+    description: "Solang Valley, Beas River, Hidimba Devi Temple",
+    users: users,
+    total_users: users.length,
+    expense_per_user: expensePerUser,
+    total_user_expense: totalExpense,
+    settlments: { in: [], out: [] },
+    is_settled: false,
+  };
 
-	// TODO: settle expense
-	trip.settlments = calculateSettlements(trip);
+  // TODO: settle expense
+  trip.settlments = calculateSettlements(trip);
 
-	console.log(JSON.stringify(trip, null, 2));
+  console.log(JSON.stringify(trip, null, 2));
 } catch (e) {
-	console.error(`Generate Expense error: ${e.message}`, e.stack);
+  console.error(`Generate Expense error: ${e.message}`, e.stack);
 }
