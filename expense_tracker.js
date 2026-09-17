@@ -132,11 +132,10 @@ function calculateSettlementAmt({ user, expensePerUser }) {
   return user.expense_total - expensePerUser;
 }
 
-function generateTransactionId(tripName) {
+function generateUUID() {
   return crypto.randomUUID();
-  // const prefix = tripName.slice(0, 2).toUpperCase();
-  // return prefix + "-" + Math.floor(10000 + Math.random() * 90000);
 }
+
 
 function settleExpenses(trip) {
   const settledTrip = structuredClone(trip)
@@ -166,7 +165,7 @@ function settleExpenses(trip) {
     const debtor = debtors[di];
 
     const settleAmount = Math.min(creditor.remaining, debtor.remaining);
-    const transactionId = generateTransactionId(_trip.name);
+    const transactionId = generateUUID();
 
     // Creditor receives money (IN)
     settlements.in.push({
