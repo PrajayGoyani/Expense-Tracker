@@ -46,7 +46,7 @@ type Settlments = {
 const MIN_EXPENSE = 200;
 const MAX_EXPENSE = 1000;
 
-let USER_NAMES = [
+const USER_NAMES = [
   "Arjun Mehta", "Priya Patel", "Rohan Shah", "Nisha Desai", "Kiran Joshi",
   "Sneha Trivedi", "Vivek Pandya", "Pooja Bhatt", "Manish Parikh", "Ritu Kapoor",
   "Dhruv Amin", "Kavya Modi", "Sanjay Thakkar", "Anjali Vora", "Harsh Solanki",
@@ -91,7 +91,7 @@ function generateUser(id) {
 
 function generateExpense() {
   return {
-    amount: generateRandomNumber({ min: MIN_EXPENSE, max: MAX_EXPENSE }),
+    amount: generateRandomNumber({ min: MIN_EXPENSE, max: MAX_EXPENSE }) * 100,
     notes: generateRandomNote()
   };
 }
@@ -132,22 +132,31 @@ function calculateSettlementAmt({ user, expensePerUser }) {
   return user.expense_total - expensePerUser;
 }
 
-function generateTransactionId() {
-  return "MN-" + Math.floor(10000 + Math.random() * 90000);
+function generateTransactionId(tripName) {
+  return crypto.randomUUID();
+  // const prefix = tripName.slice(0, 2).toUpperCase();
+  // return prefix + "-" + Math.floor(10000 + Math.random() * 90000);
 }
 
-function calculateSettlements(trip) {
-  const users = trip.users;
-  const expensePerUser = trip.expense_per_user;
+function settleExpenses(trip) {
+  const _trip = structuredClone(trip)
+
+  const users = _trip.users;
+  const expensePerUser = _trip.expense_per_user;
 
   for (const user of users) {
     user.settlement_amt = calculateSettlementAmt({ user, expensePerUser });
   }
 
-  const creditors = users.filter(u => u.settlement_amt > 0).map(u => ({ user: u, remaining: u.settlement_amt }));
-  const debtors = users.filter(u => u.settlement_amt < 0).map(u => ({ user: u, remaining: Math.abs(u.settlement_amt) }));
+  // creditors and debtors by remaining amount, highest first
+  const creditors = users.filter(u => u.settlement_amt > 0)
+    .map(u => ({ user: u, remaining: u.settlement_amt }))
+    .sort((a, b) => b.remaining - a.remaining);
+  const debtors = users.filter(u => u.settlement_amt < 0)
+    .map(u => ({ user: u, remaining: Math.abs(u.settlement_amt) }))
+    .sort((a, b) => b.remaining - a.remaining);
 
-  const settlements = { in: [], out: [] };
+  const settlements = _trip.settlements;
 
   let ci = 0; // creditor index
   let di = 0; // debtor index
@@ -157,7 +166,7 @@ function calculateSettlements(trip) {
     const debtor = debtors[di];
 
     const settleAmount = Math.min(creditor.remaining, debtor.remaining);
-    const transactionId = generateTransactionId();
+    const transactionId = generateTransactionId(_trip.name);
 
     // Creditor receives money (IN)
     settlements.in.push({
@@ -185,6 +194,8 @@ function calculateSettlements(trip) {
 
     creditor.remaining -= settleAmount;
     debtor.remaining -= settleAmount;
+    creditor.user.settlement_amt -= settleAmount;
+    debtor.user.settlement_amt += settleAmount;
 
     if (creditor.remaining === 0) ci++;
     if (debtor.remaining === 0) di++;
@@ -192,14 +203,14 @@ function calculateSettlements(trip) {
 
   // mark fully settled users
   for (const user of users) {
-    if (Math.abs(user.settlement_amt) < 1) {
+    if (user.settlement_amt === 0) {
       user.is_settled = true;
     }
   }
 
-  trip.is_settled = users.every(u => u.is_settled);
+  _trip.is_settled = users.every(u => u.is_settled);
 
-  return settlements;
+  return _trip;
 }
 
 try {
@@ -215,14 +226,13 @@ try {
     total_users: users.length,
     expense_per_user: expensePerUser,
     total_user_expense: totalExpense,
-    settlments: { in: [], out: [] },
+    settlements: { in: [], out: [] },
     is_settled: false,
   };
 
-  // TODO: settle expense
-  trip.settlments = calculateSettlements(trip);
+  const settledTrip = settleExpenses(trip);
 
-  console.log(JSON.stringify(trip, null, 2));
+  await Bun.write("./data.json", JSON.stringify(settledTrip, null, 2));
 } catch (e) {
   console.error(`Generate Expense error: ${e.message}`, e.stack);
 }
