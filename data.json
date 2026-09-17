@@ -1,0 +1,269 @@
+{
+  "name": "Manali",
+  "description": "Solang Valley, Beas River, Hidimba Devi Temple",
+  "users": [
+    {
+      "id": 1,
+      "name": "Dhruv Amin",
+      "expenses": [
+        {
+          "amount": 79100,
+          "notes": "Medicine"
+        },
+        {
+          "amount": 30400,
+          "notes": "Dinner"
+        }
+      ],
+      "expense_total": 109500,
+      "settlement_amt": 0,
+      "is_settled": true
+    },
+    {
+      "id": 2,
+      "name": "Priya Patel",
+      "expenses": [
+        {
+          "amount": 63700,
+          "notes": "Chai"
+        },
+        {
+          "amount": 92600,
+          "notes": "Mobile Recharge"
+        },
+        {
+          "amount": 28100,
+          "notes": "Coffee"
+        },
+        {
+          "amount": 99800,
+          "notes": "Stationery"
+        },
+        {
+          "amount": 40900,
+          "notes": "Parking"
+        },
+        {
+          "amount": 91100,
+          "notes": "Books"
+        },
+        {
+          "amount": 59400,
+          "notes": "Vegetables"
+        },
+        {
+          "amount": 52000,
+          "notes": "Khaman"
+        }
+      ],
+      "expense_total": 527600,
+      "settlement_amt": 0,
+      "is_settled": true
+    },
+    {
+      "id": 3,
+      "name": "Swati Gandhi",
+      "expenses": [
+        {
+          "amount": 36600,
+          "notes": "Coffee"
+        },
+        {
+          "amount": 24800,
+          "notes": "Fruit"
+        }
+      ],
+      "expense_total": 61400,
+      "settlement_amt": 0,
+      "is_settled": true
+    },
+    {
+      "id": 4,
+      "name": "Sneha Trivedi",
+      "expenses": [
+        {
+          "amount": 23400,
+          "notes": "Khaman"
+        },
+        {
+          "amount": 72100,
+          "notes": "Parking"
+        },
+        {
+          "amount": 61100,
+          "notes": "Stationery"
+        },
+        {
+          "amount": 55300,
+          "notes": "Petrol"
+        },
+        {
+          "amount": 21900,
+          "notes": "Laundry"
+        },
+        {
+          "amount": 83900,
+          "notes": "Snacks"
+        }
+      ],
+      "expense_total": 317700,
+      "settlement_amt": 0,
+      "is_settled": true
+    },
+    {
+      "id": 5,
+      "name": "Manish Parikh",
+      "expenses": [
+        {
+          "amount": 65000,
+          "notes": "Snacks"
+        },
+        {
+          "amount": 82900,
+          "notes": "Books"
+        }
+      ],
+      "expense_total": 147900,
+      "settlement_amt": 0,
+      "is_settled": true
+    }
+  ],
+  "total_users": 5,
+  "expense_per_user": 232820,
+  "total_user_expense": 1164100,
+  "settlements": {
+    "in": [
+      {
+        "id": "ff0a6102-fce4-4b06-9624-38602b734b67",
+        "amount": 171420,
+        "status": "unpaid",
+        "receipt": {
+          "settled_to": {
+            "id": 2,
+            "name": "Priya Patel"
+          },
+          "payment_method": "online"
+        },
+        "from": {
+          "id": 3,
+          "name": "Swati Gandhi"
+        }
+      },
+      {
+        "id": "d1818378-92c2-4b95-8446-070dccf47b13",
+        "amount": 123320,
+        "status": "unpaid",
+        "receipt": {
+          "settled_to": {
+            "id": 2,
+            "name": "Priya Patel"
+          },
+          "payment_method": "online"
+        },
+        "from": {
+          "id": 1,
+          "name": "Dhruv Amin"
+        }
+      },
+      {
+        "id": "d9d826be-966a-4bbf-ac30-11f055358723",
+        "amount": 40,
+        "status": "unpaid",
+        "receipt": {
+          "settled_to": {
+            "id": 2,
+            "name": "Priya Patel"
+          },
+          "payment_method": "online"
+        },
+        "from": {
+          "id": 5,
+          "name": "Manish Parikh"
+        }
+      },
+      {
+        "id": "2c9a0603-158f-4053-832d-34137ff68c35",
+        "amount": 84880,
+        "status": "unpaid",
+        "receipt": {
+          "settled_to": {
+            "id": 4,
+            "name": "Sneha Trivedi"
+          },
+          "payment_method": "online"
+        },
+        "from": {
+          "id": 5,
+          "name": "Manish Parikh"
+        }
+      }
+    ],
+    "out": [
+      {
+        "id": "ff0a6102-fce4-4b06-9624-38602b734b67",
+        "amount": 171420,
+        "status": "unpaid",
+        "receipt": {
+          "settled_to": {
+            "id": 2,
+            "name": "Priya Patel"
+          },
+          "payment_method": "online"
+        },
+        "from": {
+          "id": 3,
+          "name": "Swati Gandhi"
+        }
+      },
+      {
+        "id": "d1818378-92c2-4b95-8446-070dccf47b13",
+        "amount": 123320,
+        "status": "unpaid",
+        "receipt": {
+          "settled_to": {
+            "id": 2,
+            "name": "Priya Patel"
+          },
+          "payment_method": "online"
+        },
+        "from": {
+          "id": 1,
+          "name": "Dhruv Amin"
+        }
+      },
+      {
+        "id": "d9d826be-966a-4bbf-ac30-11f055358723",
+        "amount": 40,
+        "status": "unpaid",
+        "receipt": {
+          "settled_to": {
+            "id": 2,
+            "name": "Priya Patel"
+          },
+          "payment_method": "online"
+        },
+        "from": {
+          "id": 5,
+          "name": "Manish Parikh"
+        }
+      },
+      {
+        "id": "2c9a0603-158f-4053-832d-34137ff68c35",
+        "amount": 84880,
+        "status": "unpaid",
+        "receipt": {
+          "settled_to": {
+            "id": 4,
+            "name": "Sneha Trivedi"
+          },
+          "payment_method": "online"
+        },
+        "from": {
+          "id": 5,
+          "name": "Manish Parikh"
+        }
+      }
+    ]
+  },
+  "is_settled": true
+}
