@@ -55,14 +55,6 @@ const USER_NAMES = [
 
 const totalUser = USER_NAMES.length;
 
-let userNameIndex = 0;
-function generateRandomUserName() {
-  userNameIndex = Math.floor(Math.random() * USER_NAMES.length);
-  const name = USER_NAMES[userNameIndex];
-  USER_NAMES.splice(userNameIndex, 1);
-  return name;
-}
-
 const EXPENSE_NOTES = [
   "Khaman", "Lunch", "Groceries", "Auto Fare", "Coffee",
   "Dinner", "Stationery", "Medicine", "Snacks", "Petrol",
@@ -78,10 +70,10 @@ function generateRandomNumber({ min, max }) {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-function generateUser(id) {
+function generateUser(id, availableNames) {
   return {
     id: id,
-    name: generateRandomUserName(),
+    name: availableNames[id - 1],
     expenses: [],
     expense_total: 0,
     settlement_amt: 0,
@@ -104,15 +96,29 @@ function getAllUserTotalExpense(users) {
   return total;
 }
 
+function shuffle(items) {
+  const result = [...items];
+
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+
+  return result;
+}
+
 function generateUsersWithExpense(count) {
   if (count > totalUser) {
     throw new Error(`Can not generate more than available seed users, totalUser: ${totalUser}`);
   }
 
+  const availableNames = shuffle(USER_NAMES);
+
   const users = [];
   for (let i = 0; i < count; i++) {
     // Get initial user state
-    const user = generateUser(i + 1);
+    const user = generateUser(i + 1, availableNames);
 
     // Generate user expenses
     const expenseCount = generateRandomNumber({ min: 2, max: 8 });
