@@ -139,10 +139,10 @@ function generateTransactionId(tripName) {
 }
 
 function settleExpenses(trip) {
-  const _trip = structuredClone(trip)
+  const settledTrip = structuredClone(trip)
 
-  const users = _trip.users;
-  const expensePerUser = _trip.expense_per_user;
+  const users = settledTrip.users;
+  const expensePerUser = settledTrip.expense_per_user;
 
   for (const user of users) {
     user.settlement_amt = calculateSettlementAmt({ user, expensePerUser });
@@ -156,7 +156,7 @@ function settleExpenses(trip) {
     .map(u => ({ user: u, remaining: Math.abs(u.settlement_amt) }))
     .sort((a, b) => b.remaining - a.remaining);
 
-  const settlements = _trip.settlements;
+  const settlements = settledTrip.settlements;
 
   let ci = 0; // creditor index
   let di = 0; // debtor index
@@ -201,16 +201,27 @@ function settleExpenses(trip) {
     if (debtor.remaining === 0) di++;
   }
 
-  // mark fully settled users
-  for (const user of users) {
-    if (user.settlement_amt === 0) {
-      user.is_settled = true;
-    }
+  // check total remaining
+  const remainingBalance = users.reduce((sum, user) => sum + user.settlement_amt, 0);
+  if (remainingBalance !== 0) {
+    throw new Error(`Settlement incomplete: ${remainingBalance}`);
   }
 
-  _trip.is_settled = users.every(u => u.is_settled);
+  // match in out settlements
+  const totalIn = settlements.in.reduce((sum, transaction) => sum + transaction.amount, 0);
+  const totalOut = settlements.out.reduce( (sum, transaction) => sum + transaction.amount, 0);
+  if (totalIn !== totalOut) {
+    throw new Error("IN and OUT settlements don't match");
+  }
 
-  return _trip;
+  // all remaining balance is settled
+  for (const user of users) {
+      user.is_settled = true;
+  }
+
+  settledTrip.is_settled = users.every(u => u.is_settled);
+
+  return settledTrip;
 }
 
 try {
