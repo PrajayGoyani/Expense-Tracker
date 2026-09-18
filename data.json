@@ -4,185 +4,221 @@
   "users": [
     {
       "id": 1,
-      "name": "Ritu Kapoor",
+      "name": "Dhruv Amin",
       "expenses": [
         {
-          "amount": 91400,
-          "notes": "Courier"
+          "amount": 73300,
+          "notes": "Snacks"
         },
         {
-          "amount": 95500,
-          "notes": "Auto Fare"
+          "amount": 40300,
+          "notes": "Khaman"
         },
         {
-          "amount": 78300,
-          "notes": "Stationery"
+          "amount": 50600,
+          "notes": "Books"
         },
         {
-          "amount": 66900,
-          "notes": "Dinner"
+          "amount": 34500,
+          "notes": "Coffee"
         },
         {
-          "amount": 35500,
-          "notes": "Vegetables"
+          "amount": 72000,
+          "notes": "Snacks"
         },
         {
-          "amount": 24100,
-          "notes": "Parking"
+          "amount": 82400,
+          "notes": "Bus Ticket"
         }
       ],
-      "expense_total": 391700,
+      "expense_total": 353100,
       "settlement_amt": 0,
       "is_settled": true
     },
     {
       "id": 2,
-      "name": "Sanjay Thakkar",
+      "name": "Kavya Modi",
       "expenses": [
         {
-          "amount": 35000,
-          "notes": "Auto Fare"
+          "amount": 26500,
+          "notes": "Laundry"
         },
         {
-          "amount": 81500,
+          "amount": 76300,
+          "notes": "Chai"
+        },
+        {
+          "amount": 58000,
+          "notes": "Books"
+        },
+        {
+          "amount": 85800,
           "notes": "Bus Ticket"
         },
         {
-          "amount": 72200,
-          "notes": "Auto Fare"
+          "amount": 71800,
+          "notes": "Parking"
+        },
+        {
+          "amount": 80700,
+          "notes": "Stationery"
+        },
+        {
+          "amount": 40600,
+          "notes": "Bus Ticket"
         }
       ],
-      "expense_total": 188700,
+      "expense_total": 439700,
       "settlement_amt": 0,
       "is_settled": true
     },
     {
       "id": 3,
-      "name": "Chirag Nayak",
+      "name": "Swati Gandhi",
       "expenses": [
         {
-          "amount": 52500,
-          "notes": "Groceries"
-        },
-        {
-          "amount": 86300,
-          "notes": "Khaman"
-        },
-        {
-          "amount": 32700,
-          "notes": "Auto Fare"
-        },
-        {
-          "amount": 73200,
-          "notes": "Bus Ticket"
-        },
-        {
-          "amount": 27700,
-          "notes": "Petrol"
-        },
-        {
-          "amount": 77400,
+          "amount": 71600,
           "notes": "Medicine"
         },
         {
-          "amount": 58400,
-          "notes": "Stationery"
+          "amount": 67000,
+          "notes": "Vegetables"
+        },
+        {
+          "amount": 29000,
+          "notes": "Auto Fare"
+        },
+        {
+          "amount": 52900,
+          "notes": "Vegetables"
+        },
+        {
+          "amount": 58000,
+          "notes": "Petrol"
+        },
+        {
+          "amount": 91900,
+          "notes": "Chai"
         }
       ],
-      "expense_total": 408200,
+      "expense_total": 370400,
       "settlement_amt": 0,
       "is_settled": true
     },
     {
       "id": 4,
-      "name": "Sneha Trivedi",
+      "name": "Ritu Kapoor",
       "expenses": [
         {
-          "amount": 36300,
-          "notes": "Electricity Bill"
+          "amount": 58300,
+          "notes": "Khaman"
         },
         {
-          "amount": 41600,
+          "amount": 25300,
+          "notes": "Petrol"
+        },
+        {
+          "amount": 80200,
           "notes": "Fruit"
         },
         {
-          "amount": 47600,
-          "notes": "Chai"
+          "amount": 88400,
+          "notes": "Khaman"
         },
         {
-          "amount": 93000,
-          "notes": "Chai"
+          "amount": 34100,
+          "notes": "Laundry"
         },
         {
-          "amount": 70800,
-          "notes": "Petrol"
+          "amount": 26200,
+          "notes": "Laundry"
         }
       ],
-      "expense_total": 289300,
+      "expense_total": 312500,
       "settlement_amt": 0,
       "is_settled": true
     },
     {
       "id": 5,
-      "name": "Mital Raval",
+      "name": "Vivek Pandya",
       "expenses": [
         {
-          "amount": 55000,
-          "notes": "Medicine"
+          "amount": 33300,
+          "notes": "Petrol"
         },
         {
-          "amount": 65700,
+          "amount": 34100,
+          "notes": "Stationery"
+        },
+        {
+          "amount": 89900,
+          "notes": "Khaman"
+        },
+        {
+          "amount": 36400,
+          "notes": "Snacks"
+        },
+        {
+          "amount": 90800,
+          "notes": "Snacks"
+        },
+        {
+          "amount": 55100,
+          "notes": "Bus Ticket"
+        },
+        {
+          "amount": 99700,
+          "notes": "Chai"
+        },
+        {
+          "amount": 48200,
           "notes": "Courier"
-        },
-        {
-          "amount": 63200,
-          "notes": "Books"
         }
       ],
-      "expense_total": 183900,
+      "expense_total": 487500,
       "settlement_amt": 0,
       "is_settled": true
     }
   ],
   "total_users": 5,
-  "expense_per_user": 292360,
-  "total_user_expense": 1461800,
+  "expense_per_user": 392640,
+  "total_user_expense": 1963200,
   "settlements": [
     {
-      "id": "f3c86fb8-582d-41d7-a036-270a16aff8d6",
-      "amount": 108460,
+      "id": "d07467f1-a9aa-4e97-9140-5a6a3a1985e2",
+      "amount": 80140,
       "status": "unpaid",
       "payment_method": "online",
-      "payeeId": 3,
-      "payerId": 5,
-      "notes": "settle amount from Mital Raval to Chirag Nayak"
-    },
-    {
-      "id": "ca985092-b495-4e74-9d58-e3cef9f8a6cc",
-      "amount": 7380,
-      "status": "unpaid",
-      "payment_method": "online",
-      "payeeId": 3,
-      "payerId": 2,
-      "notes": "settle amount from Sanjay Thakkar to Chirag Nayak"
-    },
-    {
-      "id": "54b3ef9f-5bb6-49c9-91c1-5e8a6f410843",
-      "amount": 96280,
-      "status": "unpaid",
-      "payment_method": "online",
-      "payeeId": 1,
-      "payerId": 2,
-      "notes": "settle amount from Sanjay Thakkar to Ritu Kapoor"
-    },
-    {
-      "id": "a9f543b4-8810-43ff-b1a9-dcbc72ef9ad6",
-      "amount": 3060,
-      "status": "unpaid",
-      "payment_method": "online",
-      "payeeId": 1,
+      "payeeId": 5,
       "payerId": 4,
-      "notes": "settle amount from Sneha Trivedi to Ritu Kapoor"
+      "notes": "settle amount from Ritu Kapoor to Vivek Pandya"
+    },
+    {
+      "id": "1ea7a124-65d4-4ebe-bcfc-fada995a0952",
+      "amount": 14720,
+      "status": "unpaid",
+      "payment_method": "online",
+      "payeeId": 5,
+      "payerId": 1,
+      "notes": "settle amount from Dhruv Amin to Vivek Pandya"
+    },
+    {
+      "id": "36d2d4f9-9514-474b-824d-42a384dfefac",
+      "amount": 24820,
+      "status": "unpaid",
+      "payment_method": "online",
+      "payeeId": 2,
+      "payerId": 1,
+      "notes": "settle amount from Dhruv Amin to Kavya Modi"
+    },
+    {
+      "id": "6c58c1a8-8f95-4f0a-8cb6-e06f7c96844b",
+      "amount": 22240,
+      "status": "unpaid",
+      "payment_method": "online",
+      "payeeId": 2,
+      "payerId": 3,
+      "notes": "settle amount from Swati Gandhi to Kavya Modi"
     }
   ],
   "is_settled": true

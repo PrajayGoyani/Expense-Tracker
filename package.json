@@ -1,5 +1,9 @@
 {
   "dependencies": {},
+  "scripts": {
+    "build": "bun build ./expense_tracker.ts --outdir ./dist --target=bun",
+    "execute": "bun run ./dist/expense_tracker.js"
+  },
   "devDependencies": {
     "@types/bun": "^1.4.2"
   }
