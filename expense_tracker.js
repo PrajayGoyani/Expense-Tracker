@@ -34,36 +34,36 @@ type Transaction = {
   id: string; // "MN-12345"
   amount: number;
   status: "paid" | "unpaid" | null;
-  reciept: Reciept;
+  payeeId: number;
+  payerId: number;
 }
 
-type Settlments = {
-  in: Transaction[];
-  out: Transaction[];
-}
+type Settlments = Transaction[];
 
 */
-const MIN_EXPENSE = 200;
-const MAX_EXPENSE = 1000;
 
-const USER_NAMES = [
-  "Arjun Mehta", "Priya Patel", "Rohan Shah", "Nisha Desai", "Kiran Joshi",
-  "Sneha Trivedi", "Vivek Pandya", "Pooja Bhatt", "Manish Parikh", "Ritu Kapoor",
-  "Dhruv Amin", "Kavya Modi", "Sanjay Thakkar", "Anjali Vora", "Harsh Solanki",
-  "Mital Raval", "Chirag Nayak", "Swati Gandhi", "Yash Contractor", "Foram Chauhan"
-];
-
-const totalUser = USER_NAMES.length;
-
-const EXPENSE_NOTES = [
-  "Khaman", "Lunch", "Groceries", "Auto Fare", "Coffee",
-  "Dinner", "Stationery", "Medicine", "Snacks", "Petrol",
-  "Electricity Bill", "Mobile Recharge", "Parking", "Chai", "Courier",
-  "Vegetables", "Fruit", "Books", "Laundry", "Bus Ticket"
-];
+const config = {
+  MIN_EXPENSE_AMT: 200,
+  MAX_EXPENSE_AMT: 1000,
+  MIN_EXPENSE_COUNT: 2,
+  MAX_EXPENSE_COUNT: 8,
+  USER_NAMES: [
+    "Arjun Mehta", "Priya Patel", "Rohan Shah", "Nisha Desai", "Kiran Joshi",
+    "Sneha Trivedi", "Vivek Pandya", "Pooja Bhatt", "Manish Parikh", "Ritu Kapoor",
+    "Dhruv Amin", "Kavya Modi", "Sanjay Thakkar", "Anjali Vora", "Harsh Solanki",
+    "Mital Raval", "Chirag Nayak", "Swati Gandhi", "Yash Contractor", "Foram Chauhan"
+  ],
+  EXPENSE_NOTES: [
+    "Khaman", "Lunch", "Groceries", "Auto Fare", "Coffee",
+    "Dinner", "Stationery", "Medicine", "Snacks", "Petrol",
+    "Electricity Bill", "Mobile Recharge", "Parking", "Chai", "Courier",
+    "Vegetables", "Fruit", "Books", "Laundry", "Bus Ticket"
+  ],
+  getTotalUser() { return this.USER_NAMES.length; }
+}
 
 function generateRandomNote() {
-  return EXPENSE_NOTES[Math.floor(Math.random() * EXPENSE_NOTES.length)];
+  return config.EXPENSE_NOTES[Math.floor(Math.random() * config.EXPENSE_NOTES.length)];
 }
 
 function generateRandomNumber({ min, max }) {
@@ -83,7 +83,10 @@ function generateUser(id, availableNames) {
 
 function generateExpense() {
   return {
-    amount: generateRandomNumber({ min: MIN_EXPENSE, max: MAX_EXPENSE }) * 100,
+    amount: generateRandomNumber({
+      min: config.MIN_EXPENSE_AMT,
+      max: config.MAX_EXPENSE_AMT
+    }) * 100,
     notes: generateRandomNote()
   };
 }
@@ -108,12 +111,26 @@ function shuffle(items) {
   return result;
 }
 
+function generateUserExpense() {
+  const expenses = [];
+  const expenseCount = generateRandomNumber({ min: config.MIN_EXPENSE_COUNT, max: config.MAX_EXPENSE_COUNT });
+  for (let i = 0; i < expenseCount; i++) {
+    expenses.push(generateExpense());
+  }
+  return expenses;
+}
+
+function calculateTotalExpense(expenses) {
+  return expenses.reduce((total, expense) => total + expense.amount, 0);
+}
+
 function generateUsersWithExpense(count) {
+  const totalUser = config.getTotalUser();
   if (count > totalUser) {
     throw new Error(`Can not generate more than available seed users, totalUser: ${totalUser}`);
   }
 
-  const availableNames = shuffle(USER_NAMES);
+  const availableNames = shuffle(config.USER_NAMES);
 
   const users = [];
   for (let i = 0; i < count; i++) {
@@ -121,12 +138,8 @@ function generateUsersWithExpense(count) {
     const user = generateUser(i + 1, availableNames);
 
     // Generate user expenses
-    const expenseCount = generateRandomNumber({ min: 2, max: 8 });
-    for (let i = 0; i < expenseCount; i++) {
-      const expense = generateExpense();
-      user.expense_total += expense.amount;
-      user.expenses.push(expense);
-    }
+    user.expenses = generateUserExpense()
+    user.expense_total = calculateTotalExpense(user.expenses)
 
     users.push(user);
   }
@@ -173,28 +186,15 @@ function settleExpenses(trip) {
     const settleAmount = Math.min(creditor.remaining, debtor.remaining);
     const transactionId = generateUUID();
 
-    // Creditor receives money (IN)
-    settlements.in.push({
+    // log settlements
+    settlements.push({
       id: transactionId,
       amount: settleAmount,
       status: "unpaid",
-      receipt: {
-        settled_to: { id: creditor.user.id, name: creditor.user.name },
-        payment_method: "online",
-      },
-      from: { id: debtor.user.id, name: debtor.user.name },
-    });
-
-    // Debtor sends money (OUT)
-    settlements.out.push({
-      id: transactionId,
-      amount: settleAmount,
-      status: "unpaid",
-      receipt: {
-        settled_to: { id: creditor.user.id, name: creditor.user.name },
-        payment_method: "online",
-      },
-      from: { id: debtor.user.id, name: debtor.user.name },
+      payment_method: "online",
+      payeeId: creditor.user.id,
+      payerId: debtor.user.id,
+      notes: `settle amount from ${debtor.user.name} to ${creditor.user.name}`,
     });
 
     creditor.remaining -= settleAmount;
@@ -212,16 +212,9 @@ function settleExpenses(trip) {
     throw new Error(`Settlement incomplete: ${remainingBalance}`);
   }
 
-  // match in out settlements
-  const totalIn = settlements.in.reduce((sum, transaction) => sum + transaction.amount, 0);
-  const totalOut = settlements.out.reduce( (sum, transaction) => sum + transaction.amount, 0);
-  if (totalIn !== totalOut) {
-    throw new Error("IN and OUT settlements don't match");
-  }
-
   // all remaining balance is settled
   for (const user of users) {
-      user.is_settled = true;
+    user.is_settled = true;
   }
 
   settledTrip.is_settled = users.every(u => u.is_settled);
@@ -242,7 +235,7 @@ try {
     total_users: users.length,
     expense_per_user: expensePerUser,
     total_user_expense: totalExpense,
-    settlements: { in: [], out: [] },
+    settlements: [],
     is_settled: false,
   };
 
