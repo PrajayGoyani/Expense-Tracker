@@ -4,76 +4,92 @@
   "users": [
     {
       "id": 1,
-      "name": "Dhruv Amin",
+      "name": "Ritu Kapoor",
       "expenses": [
         {
-          "amount": 79100,
-          "notes": "Medicine"
+          "amount": 91400,
+          "notes": "Courier"
         },
         {
-          "amount": 30400,
+          "amount": 95500,
+          "notes": "Auto Fare"
+        },
+        {
+          "amount": 78300,
+          "notes": "Stationery"
+        },
+        {
+          "amount": 66900,
           "notes": "Dinner"
+        },
+        {
+          "amount": 35500,
+          "notes": "Vegetables"
+        },
+        {
+          "amount": 24100,
+          "notes": "Parking"
         }
       ],
-      "expense_total": 109500,
+      "expense_total": 391700,
       "settlement_amt": 0,
       "is_settled": true
     },
     {
       "id": 2,
-      "name": "Priya Patel",
+      "name": "Sanjay Thakkar",
       "expenses": [
         {
-          "amount": 63700,
-          "notes": "Chai"
+          "amount": 35000,
+          "notes": "Auto Fare"
         },
         {
-          "amount": 92600,
-          "notes": "Mobile Recharge"
+          "amount": 81500,
+          "notes": "Bus Ticket"
         },
         {
-          "amount": 28100,
-          "notes": "Coffee"
-        },
-        {
-          "amount": 99800,
-          "notes": "Stationery"
-        },
-        {
-          "amount": 40900,
-          "notes": "Parking"
-        },
-        {
-          "amount": 91100,
-          "notes": "Books"
-        },
-        {
-          "amount": 59400,
-          "notes": "Vegetables"
-        },
-        {
-          "amount": 52000,
-          "notes": "Khaman"
+          "amount": 72200,
+          "notes": "Auto Fare"
         }
       ],
-      "expense_total": 527600,
+      "expense_total": 188700,
       "settlement_amt": 0,
       "is_settled": true
     },
     {
       "id": 3,
-      "name": "Swati Gandhi",
+      "name": "Chirag Nayak",
       "expenses": [
         {
-          "amount": 36600,
-          "notes": "Coffee"
+          "amount": 52500,
+          "notes": "Groceries"
         },
         {
-          "amount": 24800,
-          "notes": "Fruit"
+          "amount": 86300,
+          "notes": "Khaman"
+        },
+        {
+          "amount": 32700,
+          "notes": "Auto Fare"
+        },
+        {
+          "amount": 73200,
+          "notes": "Bus Ticket"
+        },
+        {
+          "amount": 27700,
+          "notes": "Petrol"
+        },
+        {
+          "amount": 77400,
+          "notes": "Medicine"
+        },
+        {
+          "amount": 58400,
+          "notes": "Stationery"
         }
       ],
-      "expense_total": 61400,
+      "expense_total": 408200,
       "settlement_amt": 0,
       "is_settled": true
     },
@@ -82,188 +98,92 @@
       "name": "Sneha Trivedi",
       "expenses": [
         {
-          "amount": 23400,
-          "notes": "Khaman"
+          "amount": 36300,
+          "notes": "Electricity Bill"
         },
         {
-          "amount": 72100,
-          "notes": "Parking"
+          "amount": 41600,
+          "notes": "Fruit"
         },
         {
-          "amount": 61100,
-          "notes": "Stationery"
+          "amount": 47600,
+          "notes": "Chai"
         },
         {
-          "amount": 55300,
+          "amount": 93000,
+          "notes": "Chai"
+        },
+        {
+          "amount": 70800,
           "notes": "Petrol"
-        },
-        {
-          "amount": 21900,
-          "notes": "Laundry"
-        },
-        {
-          "amount": 83900,
-          "notes": "Snacks"
         }
       ],
-      "expense_total": 317700,
+      "expense_total": 289300,
       "settlement_amt": 0,
       "is_settled": true
     },
     {
       "id": 5,
-      "name": "Manish Parikh",
+      "name": "Mital Raval",
       "expenses": [
         {
-          "amount": 65000,
-          "notes": "Snacks"
+          "amount": 55000,
+          "notes": "Medicine"
         },
         {
-          "amount": 82900,
+          "amount": 65700,
+          "notes": "Courier"
+        },
+        {
+          "amount": 63200,
           "notes": "Books"
         }
       ],
-      "expense_total": 147900,
+      "expense_total": 183900,
       "settlement_amt": 0,
       "is_settled": true
     }
   ],
   "total_users": 5,
-  "expense_per_user": 232820,
-  "total_user_expense": 1164100,
-  "settlements": {
-    "in": [
-      {
-        "id": "ff0a6102-fce4-4b06-9624-38602b734b67",
-        "amount": 171420,
-        "status": "unpaid",
-        "receipt": {
-          "settled_to": {
-            "id": 2,
-            "name": "Priya Patel"
-          },
-          "payment_method": "online"
-        },
-        "from": {
-          "id": 3,
-          "name": "Swati Gandhi"
-        }
-      },
-      {
-        "id": "d1818378-92c2-4b95-8446-070dccf47b13",
-        "amount": 123320,
-        "status": "unpaid",
-        "receipt": {
-          "settled_to": {
-            "id": 2,
-            "name": "Priya Patel"
-          },
-          "payment_method": "online"
-        },
-        "from": {
-          "id": 1,
-          "name": "Dhruv Amin"
-        }
-      },
-      {
-        "id": "d9d826be-966a-4bbf-ac30-11f055358723",
-        "amount": 40,
-        "status": "unpaid",
-        "receipt": {
-          "settled_to": {
-            "id": 2,
-            "name": "Priya Patel"
-          },
-          "payment_method": "online"
-        },
-        "from": {
-          "id": 5,
-          "name": "Manish Parikh"
-        }
-      },
-      {
-        "id": "2c9a0603-158f-4053-832d-34137ff68c35",
-        "amount": 84880,
-        "status": "unpaid",
-        "receipt": {
-          "settled_to": {
-            "id": 4,
-            "name": "Sneha Trivedi"
-          },
-          "payment_method": "online"
-        },
-        "from": {
-          "id": 5,
-          "name": "Manish Parikh"
-        }
-      }
-    ],
-    "out": [
-      {
-        "id": "ff0a6102-fce4-4b06-9624-38602b734b67",
-        "amount": 171420,
-        "status": "unpaid",
-        "receipt": {
-          "settled_to": {
-            "id": 2,
-            "name": "Priya Patel"
-          },
-          "payment_method": "online"
-        },
-        "from": {
-          "id": 3,
-          "name": "Swati Gandhi"
-        }
-      },
-      {
-        "id": "d1818378-92c2-4b95-8446-070dccf47b13",
-        "amount": 123320,
-        "status": "unpaid",
-        "receipt": {
-          "settled_to": {
-            "id": 2,
-            "name": "Priya Patel"
-          },
-          "payment_method": "online"
-        },
-        "from": {
-          "id": 1,
-          "name": "Dhruv Amin"
-        }
-      },
-      {
-        "id": "d9d826be-966a-4bbf-ac30-11f055358723",
-        "amount": 40,
-        "status": "unpaid",
-        "receipt": {
-          "settled_to": {
-            "id": 2,
-            "name": "Priya Patel"
-          },
-          "payment_method": "online"
-        },
-        "from": {
-          "id": 5,
-          "name": "Manish Parikh"
-        }
-      },
-      {
-        "id": "2c9a0603-158f-4053-832d-34137ff68c35",
-        "amount": 84880,
-        "status": "unpaid",
-        "receipt": {
-          "settled_to": {
-            "id": 4,
-            "name": "Sneha Trivedi"
-          },
-          "payment_method": "online"
-        },
-        "from": {
-          "id": 5,
-          "name": "Manish Parikh"
-        }
-      }
-    ]
-  },
+  "expense_per_user": 292360,
+  "total_user_expense": 1461800,
+  "settlements": [
+    {
+      "id": "f3c86fb8-582d-41d7-a036-270a16aff8d6",
+      "amount": 108460,
+      "status": "unpaid",
+      "payment_method": "online",
+      "payeeId": 3,
+      "payerId": 5,
+      "notes": "settle amount from Mital Raval to Chirag Nayak"
+    },
+    {
+      "id": "ca985092-b495-4e74-9d58-e3cef9f8a6cc",
+      "amount": 7380,
+      "status": "unpaid",
+      "payment_method": "online",
+      "payeeId": 3,
+      "payerId": 2,
+      "notes": "settle amount from Sanjay Thakkar to Chirag Nayak"
+    },
+    {
+      "id": "54b3ef9f-5bb6-49c9-91c1-5e8a6f410843",
+      "amount": 96280,
+      "status": "unpaid",
+      "payment_method": "online",
+      "payeeId": 1,
+      "payerId": 2,
+      "notes": "settle amount from Sanjay Thakkar to Ritu Kapoor"
+    },
+    {
+      "id": "a9f543b4-8810-43ff-b1a9-dcbc72ef9ad6",
+      "amount": 3060,
+      "status": "unpaid",
+      "payment_method": "online",
+      "payeeId": 1,
+      "payerId": 4,
+      "notes": "settle amount from Sneha Trivedi to Ritu Kapoor"
+    }
+  ],
   "is_settled": true
 }
